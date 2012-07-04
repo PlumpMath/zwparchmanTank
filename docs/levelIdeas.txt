@@ -1,0 +1,70 @@
+tag based:
+	
+	refinement of the tree based aproach
+	pros:
+		simple
+		extendable ( new tag values )
+	cons:
+		can't find arbitray records without first reading refrences to them
+		random access only works when you have already read the parrent classes
+
+
+
+Tree based :
+	quad trees used to hold info about terrain bitmaps the quad trees
+	eventaully point to the itmes placed in the map
+
+	pros:
+		simple
+		secure( no scripts run from level file)
+		a "final solution"(does not need sub format)
+	cons:
+		requires inventing own format
+		hardish to extend
+		hard to hand code
+
+
+	detailed description:
+		starts with set of bitmaps describing the height map for the level
+		each taking up an equal amount of room. The room taken is divided
+		equally among each of them as decide by the initial size described
+		in panda units, higher resolution bit maps won't result in larger
+		areas, just higher resolution ones
+
+		after the level bitmaps form the floor other objects will be added.
+		These other objects will have a list describing whitch part of the
+		terrain they are centerd over with a vector describing their 
+		relation to the center of the 'floor' object they reside over
+
+
+
+data base based:
+	pros:
+		designed for complex data over a large area accesed quickly
+		learn about databases
+		likely easy to use over the net
+	cons:
+		don't know about databases
+
+python based:
+	a python script builds the level for the game engine to use
+
+	pros:
+		infinatly extendable through used of more complicated levle scripts
+
+		can provide own meathods to specialy handle level parts not used
+		+ elsewhere
+	cons:	
+		security, can't easisly stop a level script from doint something 
+		+ destructive or melicious
+		may require a sub format
+		requires hand coding ( or detailed sub format )
+
+flat list of locations:
+	simple list of what and where
+
+	pros:
+		simple
+		easy to hand code
+	cons:
+		does not scale well

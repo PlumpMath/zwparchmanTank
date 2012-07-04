@@ -1,0 +1,28 @@
+define tag values
+1 mainTerrain
+	int ; number of height maps that make up the level
+	n ints ; offsets to the terrains that make up the level
+
+2 groundHuggingModel
+	float ; x coridinate of the object
+	float ; y coridinate of the object2 model
+
+3 circularTrigerRegion
+	int : type of trigger region
+	int : team 	the trigger belongs to
+	float ; x cooridinate
+	float ; y cooridinate
+	float : size
+
+4 spawnCircle
+	int : team it belongs to
+	float ; x coordinate
+	float ; y coordinate
+
+5 heightMapName
+	; pointed to by mainTerrain
+	string ; null terminated string holding height map name
+
+6 mainTerrain2
+	int ; number of height maps that make up the level
+	n strings; filenames of heightmaps making up the level
