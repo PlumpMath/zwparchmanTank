@@ -9,7 +9,7 @@ sync-video 0
 show-frame-rate-meter #t
 """
 )
-import TerrainClass
+from TerrainClass import TerrainClass
 from direct.stdpy import threading
 import direct.directbase.DirectStart
 
@@ -30,9 +30,6 @@ class world(DirectObject):
 		self.ground=TerrainClass(
 			name='scenario_ground',
 			geomap=heightMapName,
-			blocksize=128,
-			near = 40 ,
-			far = 300 ,
 			elevation= 50
 		)
 		self.ground.setMonoTexture(textureName)
@@ -42,8 +39,8 @@ class world(DirectObject):
 		self.camera = camera
 		
 		taskMgr.add(self.fpsInput,"fpsInput")
-		#taskMgr.add(self.ground.asyncUpdate,"groundUpdate")
-		taskMgr.add(self.ground.update,"groundUpdate")
+		taskMgr.add(self.ground.asyncUpdate,"groundUpdate")
+		#taskMgr.add(self.ground.update,"groundUpdate")
 		'''fps cam controls'''
 		self.keymap={"w":0,"a":0,"s":0,"d":0,"e":0,"q":0,
 				"j":0,"k":0,"l":0,"i":0}
@@ -70,7 +67,7 @@ class world(DirectObject):
 		self.accept("i", self.setKey,     ["i",1] )
 		self.accept("i-up", self.setKey,  ["i",0] )
 		self.accept("f", self.ground.update )
-		self.accept('g-up',self.ground.asyncUpdate)
+		self.accept('g',self.ground.asyncUpdate)
 		self.accept("space", base.wireframeOn)
 		self.accept("space-up", base.wireframeOff)
 		self.accept("-",self.deltaFar,[-2])
@@ -79,6 +76,8 @@ class world(DirectObject):
 		self.accept("0",self.deltaNear,[2])
 		self.accept("7",self.deltaBlock,[-2])
 		self.accept("8",self.deltaBlock,[2 ])
+		self.accept("5",self.deltaSpeed,[-2])
+		self.accept("6",self.deltaSpeed,[2])
 		self.accept("escape",sys.exit )
 
 
@@ -90,12 +89,29 @@ class world(DirectObject):
 
 	def fpsInput(self,task):
 		dt = task.getDt()
+		if dt > .05 :
+			return task.cont
+
 		self.fps.moveX( (self.keymap["d"]-self.keymap["a"])*dt*10000)
 		self.fps.moveY( (self.keymap["w"]-self.keymap["s"])*dt*10000)
 		self.fps.moveZ( (self.keymap["e"]-self.keymap["q"])*dt*10000)
 		self.fps.yaw  ( (self.keymap["j"]-self.keymap["l"])*dt*10000)
 		self.fps.pitch( (self.keymap["i"]-self.keymap["k"])*dt*10000)
 		return task.cont
+
+	def deltaSpeed( self, x ):
+		cur = self.fps.speed
+		if x>1:
+			cur = cur * 2
+		else:
+			cur = cur /2
+
+		self.fps.speed = cur
+		print "fpsSpeed:",cur
+		return
+
+	
+
 
 	def deltaBlock( self, x ):
 		cur = self.ground.getBlockSize()
@@ -171,7 +187,7 @@ class FpsCam :
 		self.cam.setP( angle + .64*amt)
 	
 	def moveZ(self,amt):
-		self.cam.setZ( self.cam.getZ()+amt)
+		self.cam.setZ( self.cam.getZ()+amt* self.speed)
 		return
 
 

@@ -54,7 +54,6 @@ class ServerGame :
 			self.readClients()
 			self.processRequests()
 			self.writeClients()
-			time.sleep(1)
 			if len( self.connections ) == 0 :
 				time.sleep(.1)
 
@@ -75,7 +74,7 @@ class ServerGame :
 
 			msgType = data[1][0]
 			'''find out what message this was and take the proper action'''
-			#print "data: ",data
+			print "data: ",data
 			#print "msgType",msgType
 			if ( Protical.names[msgType]=="chatSend" ):
 				self.sendChatServer(data)

@@ -47,6 +47,9 @@ class ClientGame(ShowBase):
 
 		self.taskMgr.add(self.play,"play")
 		self.keyboardSetup()
+		self.msg()
+		self.requestLevel()
+		self.msg()
 
 	def keyboardSetup(self):
 		self.accept("w"         ,self.setKey      ,["w"      ,1])
@@ -151,7 +154,8 @@ class ClientGame(ShowBase):
 			if ex[0] is not 104 and ex[0] is not 11 :
 				print "recvServer : readError [", ex[0], "] ",ex[1]
 
-		if data is not  None:
+		if data is not None:
+			print "data:",data
 			self.toProcess.put( data ) # if queue is full will hang the program
 
 

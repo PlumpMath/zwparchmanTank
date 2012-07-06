@@ -1,6 +1,21 @@
 # comment
 version=0.01
-mapTiles=1
-genesis.png color.png
+mapTiles=16
+part_0.png smallColor.png
+part_1.png smallColor.png
+part_2.png smallColor.png
+part_3.png smallColor.png
+part_4.png smallColor.png
+part_5.png smallColor.png
+part_6.png smallColor.png
+part_7.png smallColor.png
+part_8.png smallColor.png
+part_9.png smallColor.png
+part_10.png smallColor.png
+part_11.png smallColor.png
+part_12.png smallColor.png
+part_13.png smallColor.png
+part_14.png smallColor.png
+part_15.png smallColor.png
 models=1
 model=models/medTank.egg x=0 y=1 z=3 h=4 p=5 y=6 sx=1 sy=1 sz=1
