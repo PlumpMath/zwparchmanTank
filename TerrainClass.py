@@ -6,9 +6,9 @@ class TerrainClass(GeoMipTerrain):
 	def __init__(self,
 		name,
 		geomap,
-		blocksize=16,
-		near = 24,
-		far = 115,
+		blocksize=64,
+		near = 40,
+		far = 200,
 		elevation=100
 	):
 		GeoMipTerrain.__init__(self, name)

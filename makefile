@@ -12,4 +12,5 @@ client_run: all
 clean:
 	cd levels ; make clean
 	cd models; make clean
+	rm *temp *~ *pyc -f
 	#clean finished

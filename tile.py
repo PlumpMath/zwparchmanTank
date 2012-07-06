@@ -24,7 +24,7 @@ def doIt(outSize =64, inImageName=None, prefix=None, bitDepth=8 ):
 
 	inImage = png.Reader(inImageName)
 
-	inImageRead = inImage.asFloat()
+	inImageRead = inImage.read()
 	inPixels = inImageRead[2]
 
 	inSize = inImageRead[0]
@@ -40,7 +40,7 @@ def doIt(outSize =64, inImageName=None, prefix=None, bitDepth=8 ):
 			'''time to write the sub images'''
 			writeImageRow( size=outSize,
 					namer=namer,
-					bitDepth=8 ,
+					bitDepth=16 ,
 					inPixels=rowBuffer)
 			rowBuffer=[]
 

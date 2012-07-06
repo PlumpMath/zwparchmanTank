@@ -7,3 +7,4 @@ medTank.egg : medTank.x
 
 clean:
 	rm -f medTank.egg
+	rm *temp *~ -f

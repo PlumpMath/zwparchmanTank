@@ -66,7 +66,7 @@ class TerrainManager (object):
 		side = len( self.terrainGrid )
 		updateX = random.randint(0,side-1)
 		updateY = random.randint(0,side-1)
-		self.terrainGrid[updateX][updateY].update()
+		self.terrainGrid[updateX][updateY].asyncUpdate()
 
 		if task is None:
 			return
