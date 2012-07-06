@@ -54,6 +54,7 @@ class ServerGame :
 			self.readClients()
 			self.processRequests()
 			self.writeClients()
+			time.sleep(.2)
 			if len( self.connections ) == 0 :
 				time.sleep(.1)
 
@@ -126,6 +127,7 @@ class ServerGame :
 
 			try:
 				item[0].sendall(item[1]) # send the message
+				print "sent:",item[0],",",item[1]
 			except socket.error as ex:
 				print "server.py: writeClient: error caught"
 				if ex[0]==104 or 1 :

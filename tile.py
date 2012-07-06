@@ -24,7 +24,7 @@ def doIt(outSize =64, inImageName=None, prefix=None, bitDepth=8 ):
 
 	inImage = png.Reader(inImageName)
 
-	inImageRead = inImage.read()
+	inImageRead = inImage.asFloat()
 	inPixels = inImageRead[2]
 
 	inSize = inImageRead[0]
@@ -38,22 +38,30 @@ def doIt(outSize =64, inImageName=None, prefix=None, bitDepth=8 ):
 		rowBuffer.append( line )
 		if len( rowBuffer ) == outSize :
 			'''time to write the sub images'''
-			for i in range( 0, inSize, outSize):
-				'''write the files'''
-				pixels = []
-				out = png.Writer(outSize,outSize, 
-						greyscale=True, 
-						bitdepth=bitDepth )
+			writeImageRow( size=outSize,
+					namer=namer,
+					bitDepth=8 ,
+					inPixels=rowBuffer)
+			rowBuffer=[]
 
-				'''build the image into a 2d array'''
-				for j in range(outSize):
-					pixels.append( rowBuffer[k-outSize+j][i:i+outSize] )
+def writeImageRow( size, namer, bitDepth, inPixels):
+	length = len( inPixels[0] )
+	numImages = length/size
 
-				outFile = open ( namer.getNext(), "wb")
-				out.write(outFile, pixels )
-				outFile.close()
 
-		k+=1
+	out = png.Writer( size,size, greyscale=True,
+				bitdepth=bitDepth)
+
+	for i in range( numImages ):
+		outPixels=[]
+		for y in range( size ):
+			outPixels.append( inPixels[y][i*size:(i+1)*size] )
+
+		outFile = open( namer.getNext() ,"wb")
+		out.write( outFile,outPixels )
+		outFile.close()
+
+
 
 def setUpArgParser(parser):
 	parser.add_argument('-f',help="the input file containing the png") 

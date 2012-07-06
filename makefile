@@ -8,3 +8,8 @@ server_run: all
 
 client_run: all
 	./client.py
+
+clean:
+	cd levels ; make clean
+	cd models; make clean
+	#clean finished

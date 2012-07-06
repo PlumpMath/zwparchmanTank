@@ -1,6 +1,7 @@
 import TerrainClass
 from panda3d.core import PandaNode, NodePath
 import math
+import random
 
 class TerrainManager (object):
 	class TerrainElement():
@@ -61,8 +62,11 @@ class TerrainManager (object):
 			makeTerrainGrid()
 
 		self.root.setScale(16,16,16)
-		for i in self.terrainElements:
-			i.terrain.asyncUpdate()
+		#update one of the terrains
+		side = len( self.terrainGrid )
+		updateX = random.randint(0,side-1)
+		updateY = random.randint(0,side-1)
+		self.terrainGrid[updateX][updateY].update()
 
 		if task is None:
 			return
