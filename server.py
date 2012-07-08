@@ -5,6 +5,9 @@ import time
 
 import Protical
 import cPickle
+import threading
+import sys
+import os
 #from panda3d.bullet import BulletWorld
 #from direct.showbase.ShowBase import ShowBase
 
@@ -154,11 +157,48 @@ class ServerGame :
 
 
 
+	def getLevelName( self ):
+		return self.levelName
+
+	def setLevel ( self, levelName):
+		self.levelName=levelName
+		self.loadLevel( self.levelName )
+
 	def loadLevel(self, levelName):
 		pass
 
 
-server = ServerGame("levels/level1.lvl")
-#app = App()
-#print loader
-server.gameLoop()
+server = ServerGame("levels/level3.lvl")
+
+class ServerThread( threading.Thread):
+	def __init__( self, server):
+		threading.Thread.__init__(self)
+		self.server=server
+		return
+
+	def run(self):
+		self.server.gameLoop()
+
+runServer = ServerThread( server )
+runServer.daemon=True
+runServer.start()
+
+''' set up an interactive editor for the server'''
+while True:
+	print "choose one"
+	print "1) change level"
+	print "2) getPort"
+	print "q) quit"
+
+	val = raw_input()
+	if val == '1':
+		os.system("dir levels/")
+		print "current level", server.getLevelName()
+		string = raw_input()
+		if len( string ) > 1:
+			server.setLevel( "levels/"+string)
+
+	elif val== 'q':
+		sys.exit()
+	elif val=='2':
+		print port_address

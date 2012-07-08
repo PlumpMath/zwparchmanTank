@@ -11,13 +11,21 @@ from direct.stdpy import threading2 as threading
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 
+try:
+	import deep_reload
+except Exception as ex:
+	print ex
+	pass
+
 from pandac.PandaModules import *
+from panda3d.core import PStatClient
 loadPrcFileData("", """#
 win-origin 0 0
 sync-video 0
 show-frame-rate-meter #t
 """
 )
+# want-pstats 1
 
 host = 'localhost'
 port = 3000
@@ -42,6 +50,7 @@ class ClientGame(ShowBase):
 
 		self.toSend    =Queue.Queue(1000)
 		self.toProcess =Queue.Queue(1000)
+		self.level=None
 
 		self.socket.setblocking(False)
 
@@ -50,6 +59,7 @@ class ClientGame(ShowBase):
 		self.msg()
 		self.requestLevel()
 		self.msg()
+		print "PStatClient.connect:",PStatClient.connect("localhost" ,5185)
 
 	def keyboardSetup(self):
 		self.accept("w"         ,self.setKey      ,["w"      ,1])
@@ -57,9 +67,26 @@ class ClientGame(ShowBase):
 		self.accept("t"         ,self.setKey      ,["t"      ,1])
 		self.accept("t-up"      ,self.setKey      ,["t"      ,0])
 		self.accept("escape"    ,self.die         )
+		self.accept("r"         ,self.totalReload)
 		self.accept("p"         ,self.requestLevel )
 		self.accept("space"     ,base.wireframeOn)
 		self.accept("space-up"  ,base.wireframeOff)
+
+	def totalReload(self):
+		def r( mod ):
+			try:
+				reload( mod )
+			except Exception as ex:
+				print "reload of",mod,"failed"
+				print ex
+
+			return
+		try:
+			r(Protical)
+			r(Level)
+			r(TerrainManager)
+		except Exception as ex:
+			print ex
 
 	def setKey(self,key,value):
 		'''used by keyboard setup to handle key presses'''

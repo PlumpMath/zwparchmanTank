@@ -67,7 +67,7 @@ class Level ( object ):
 		if __debug__ is True or True:
 			listing = toRet.keys()
 			listing.sort()
-			expected = ['h','model','p','x','y','z','sx','sy','sz']
+			expected = ['h','model','p','x','y','r','z','sx','sy','sz']
 			expected.sort()
 
 			if str(listing) is str(expected) :
@@ -124,22 +124,17 @@ class Level ( object ):
 			specs = self.parseModelLine( line )
 			node = loader.loadModel(specs["model"] )
 			node.reparentTo( self.levelRoot )
-			node.setX( int( specs["x"] ) )
-			node.setY( int( specs["y"] ) )
-			node.setZ( int( specs["z"] ) )
-			node.setH( int( specs["h"] ) )
-			node.setY( int( specs["y"] ) )
-			node.setP( int( specs["p"] ) )
-			node.setSx( int (specs["sx"] ))
-			node.setSy( int (specs["sy"] ))
-			node.setSz( int (specs["sz"] ))
+			node.setX( float( specs["x"] ) )
+			node.setY( float( specs["y"] ) )
+			node.setZ( float( specs["z"] ) )
+			node.setH( float( specs["h"] ) )
+			node.setR( float( specs["r"] ) )
+			node.setP( float( specs["p"] ) )
+			node.setSx( float (specs["sx"] ))
+			node.setSy( float (specs["sy"] ))
+			node.setSz( float (specs["sz"] ))
 			self.modelList.append( item  )
 
 		self.levelFile.close()
 		print "levelLoaded"
 		return # finished loading the level
-
-	def handleTerrainInit(self,numTiles):
-		pass
-
-

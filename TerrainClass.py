@@ -29,6 +29,7 @@ class TerrainClass(GeoMipTerrain):
 		self.updateSemaphore = threading.Semaphore(0)
 		self.updateThread = self.AsyncUpdate(self,self.updateSemaphore)
 		self.updateThread.start()
+		self.generate()
 
 	def update(self, task=None):
 		GeoMipTerrain.update(self)
